@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Очень грязно</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script>
+        function doDirtyThings() {
+            var value = document.getElementById("scroll").value;
+            $.ajax({
+                url: '/dirty_things/'+value,
+                success: function (data) {
+                    alert(data);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<h1 id="ass" onclick="doDirtyThings()">В жопу себе тыкни!</h1>
+<p>Ползунок <input id="scroll" type="range" min="0" max="100" step="1" value="50"> </p>
+</body>
+</html>
