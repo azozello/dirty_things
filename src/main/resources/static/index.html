@@ -1,23 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Очень грязно</title>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script>
-        function doDirtyThings() {
-            var value = document.getElementById("scroll").value;
-            $.ajax({
-                url: '/dirty_things/'+value,
-                success: function (data) {
-                    alert(data);
-                }
-            });
-        }
-    </script>
+
+	<meta charset="utf-8">
+
+	<title>Title</title>
+	<meta name="description" content="">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<meta property="og:image" content="path/to/image.jpg">
+	<link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-touch-icon-114x114.png">
+
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/bootstrap.css">
+
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/flick/jquery-ui.css">
+	<link rel="stylesheet" href="css/asRange.css">
+
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#000">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#000">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#000">
+
+
 </head>
+
 <body>
-<h1 id="ass" onclick="doDirtyThings()">В жопу себе тыкни!</h1>
-<p>Ползунок <input id="scroll" type="range" min="0" max="100" step="1" value="50"> </p>
+<a href="/printer">PRINTER</a>
+<div class="wrapper">
+	<div class="calc-block">
+		<h1>Система налогообложения</h1>
+		<select id="check_box" class="custom-select">
+			<option selected>Open this select menu</option>
+			<option value="1">One</option>
+			<option value="2">Two</option>
+			<option value="3">Three</option>
+		</select>
+		<h1>Количество операций</h1>
+		<input id="paradnyi" class="slider" type="text" min="0" max="150" value="120" name="points" step="1">
+		<div style="margin: 50px;display: inline-block;">
+			<h3>Цена в месяц: </h3>
+			<h2>94950</h2>
+		</div>
+		<div style="margin: 50px;display: inline-block;">
+			<h3>Визитов курьера: </h3>
+			<h2 id="visits">5</h2>
+		</div>
+		<div style="margin: 50px;display: inline-block;">
+			<h3>Работников:</h3>
+			<h2 id="slaves">9</h2>
+		</div>
+
+	</div>
+</div>
+
+<h1 onclick="gg()">HUI</h1>
+<script src="js/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery-asRange.js"></script>
+<script src="js/common.js"></script>
+
+<script>
+	$(document).ready(function () {
+        $('.slider').on('asRange::change', function (e) {
+            gg();
+        });
+		$(".slider").asRange({
+
+			// namespace
+			namespace: 'asRange',
+
+			// requires additional skin file
+			skin: null,
+
+			// max value
+			max: 150,
+
+			// min value
+			min: 0,
+
+			// initial value
+			value: 120,
+
+			// moving step at a time
+			step: 1,
+
+			// limit the range of the pointer moving
+			limit: true,
+
+			// initial range
+			range: false,
+
+			// 'v' or 'h'
+			direction: 'h',
+
+			// enable keyboard interactions
+			keyboard: true,
+
+			// false, 'inherit', {'inherit': 'default'}
+			replaceFirst: false,
+
+			// shows tips
+			tip: true,
+
+			// shows scales
+			scale: true,
+
+			// for formatting output
+			format: function format(value) {
+                return value;
+			}
+		});
+	});
+
+	function gg() {
+        var slider_value  = document.getElementById('paradnyi').value;
+        var checkbox_value  = document.getElementById('check_box').value;
+        var dto = {slider_value : slider_value, checkbox_value : checkbox_value};
+        $.ajax({
+            url : "/dirty_things",
+            contentType : 'application/json',
+            data : JSON.stringify(dto),
+            type : 'POST',
+            success: function(data) {
+                document.getElementById('visits').innerHTML = data[0];
+                document.getElementById('slaves').innerHTML = data[1];
+            },
+            error:  function(xhr, str){
+                alert('Возникла ошибка: ' + xhr.responseCode);
+            }
+        });
+	}
+</script>
 </body>
 </html>
